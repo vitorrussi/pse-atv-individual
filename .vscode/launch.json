@@ -8,7 +8,7 @@
             "name": "(gdb) Iniciar",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/modelo-posix-gcc",
+            "program": "${workspaceFolder}/build/projectExec",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

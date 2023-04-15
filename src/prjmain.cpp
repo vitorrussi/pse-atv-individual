@@ -1,3 +1,5 @@
+#include "prjmain.h"
+
 /* Standard includes. */
 #include <stdlib.h>
 #include <stdio.h>
@@ -11,7 +13,7 @@
 void vTask1(void *pvParameters);
 void vTask2(void *pvParameters);
 
-int main(void)
+int prjMain(void)
 {
     xTaskCreate(&vTask1, "Task 1", 1024, NULL, 1, NULL);
     xTaskCreate(&vTask2, "Task 2", 1024, NULL, 1, NULL);
