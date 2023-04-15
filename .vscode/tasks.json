@@ -18,6 +18,12 @@
             "type": "shell",
             "command": "make clean",
             "problemMatcher": []
+        },
+        {
+            "label": "make run",
+            "type": "shell",
+            "command": "make run",
+            "problemMatcher": []
         }
     ]
 }
