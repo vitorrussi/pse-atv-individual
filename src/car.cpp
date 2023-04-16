@@ -7,7 +7,9 @@
 #include <unistd.h>
 #include <stdarg.h>
 
+#include "debug.h"
 #include "passenger.h"
+
 
 int Car::counter = 0;
 std::vector<Car> Car::carArray;
@@ -16,10 +18,10 @@ std::vector<Car> Car::carArray;
 void printTaskList() {
     // char buffer[1000];
     // vTaskList(buffer);
-    // std::cout << "Name          State   Priority  Stack  Num" << std::endl;
-    // std::cout << "******************************************" << std::endl;
-    // std::cout << buffer << std::endl;
-    // std::cout << "******************************************" << std::endl;
+    // Debug() << "Name          State   Priority  Stack  Num" << '\n';
+    // Debug() << "******************************************" << '\n';
+    // Debug() << buffer << '\n';
+    // Debug() << "******************************************" << '\n';
 }
 
 Car::Car() {
@@ -72,11 +74,11 @@ int Car::slotsOccupied() {
 }
 
 void Car::begin() {
-    std::cout << "Car " << id << " begin" << std::endl;
+    Debug() << "Car " << id << " begin" << '\n';
     load();
     run();
     unload();
-    std::cout << "Car " << id << " end" << std::endl;
+    Debug() << "Car " << id << " end" << '\n';
 }
 
 void Car::_task(void *param) {
@@ -107,12 +109,12 @@ void Car::_wakePassengers() {
     Passenger *passenger;
     for(auto i = 0; i < SLOTS; i++) {
         xQueueReceive(slots, &passenger, 100);
-        std::cout << "Waking passenger " << passenger->id << " with addr " << passenger << std::endl;
+        Debug() << "Waking passenger " << passenger->id << " with addr " << passenger << '\n';
         // xTaskAbortDelay(passenger->task_handler);
         vTaskResume(passenger->task_handler);
         // TaskStatus_t task_status;
         // vTaskGetInfo(passenger->task_handler, &task_status, pdTRUE,eInvalid);
-        // std::cout << "Task name: " << task_status.pcTaskName << std::endl;
+        // Debug() << "Task name: " << task_status.pcTaskName << '\n';
         xQueueSend(slots, &passenger, 100);
     }
 }

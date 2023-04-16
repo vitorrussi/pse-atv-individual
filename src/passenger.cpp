@@ -10,7 +10,7 @@
 
 #include "queue.h"
 
-
+#include "debug.h"
 #include "car.h"
 
 
@@ -30,11 +30,11 @@ Passenger::~Passenger() {
 int Passenger::board() {
     Passenger* ptr1 = this;
     if (xQueueSend(Car::carArray[0].slots, &ptr1, 100) != pdPASS) {
-        std::cout << "Passageiro " << id << " não entrou" << std::endl;
+        Debug() << "Passageiro " << id << " não entrou" << '\n';
         return -1;   
     }
     state(PassengerState::WAITING_IN_CAR);
-    std::cout << "P" << id << "addr: " << this << std::endl;
+    Debug() << "P" << id << "addr: " << this << '\n';
     _yield();
     
     return 0;
@@ -50,16 +50,16 @@ void Passenger::unboard() {
 }
 
 void Passenger::begin() {
-    std::cout << "Passenger " << id << " begin" << std::endl;
+    Debug() << "Passenger " << id << " begin" << '\n';
 
     if (board() < 0) {
-        std::cout << "Passenger " << id << " foi embora triste" << std::endl;
+        Debug() << "Passenger " << id << " foi embora triste" << '\n';
         return;
     }
     run();
     unboard();
 
-    std::cout << "Passenger " << id << " foi embora feliz" << std::endl;
+    Debug() << "Passenger " << id << " foi embora feliz" << '\n';
 
 }
 
