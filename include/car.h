@@ -1,13 +1,12 @@
+#ifndef __CAR_H__
+#define __CAR_H__
+
 #include <iostream>
 #include <vector>
 
 #include "FreeRTOS.h"
 #include "task.h"
 #include "semphr.h"
-
-
-
-
 
 enum class CarState {
     EMPTY,
@@ -46,7 +45,7 @@ public:
     
     static std::vector<Car> carArray;
 
-    SemaphoreHandle_t slots;
+    QueueHandle_t slots;
 
     const CarState state() const {return _state;}
     void state(CarState state) {
@@ -69,4 +68,11 @@ public:
         // write obj to stream
         return os;
     }
+
+    void _runPassengers();
+    void _unboardPassengers();
+    void _wakePassengers();
+
 };
+
+#endif

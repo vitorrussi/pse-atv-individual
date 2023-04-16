@@ -23,6 +23,9 @@ SOURCE_FILES += ${FREERTOS_DIR}/Source/tasks.c
 SOURCE_FILES += ${FREERTOS_DIR}/Source/queue.c
 SOURCE_FILES += ${FREERTOS_DIR}/Source/list.c
 SOURCE_FILES += ${FREERTOS_DIR}/Source/timers.c
+# SOURCE_FILES += ${FREERTOS_DIR}/Source/croutine.c
+# SOURCE_FILES += ${FREERTOS_DIR}/Source/event_groups.c
+# SOURCE_FILES += ${FREERTOS_DIR}/Source/stream_buffer.c
 # Memory manager (use malloc() / free())
 SOURCE_FILES += ${FREERTOS_DIR}/Source/portable/MemMang/heap_3.c
 # Posix port

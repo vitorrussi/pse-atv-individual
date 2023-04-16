@@ -1,18 +1,26 @@
+#include "passenger.h"
+
 /* Standard includes. */
 #include <stdlib.h>
 // #include <stdio.h>
 #include <iostream>
+#include <string>
 #include <unistd.h>
 #include <stdarg.h>
 
+#include "queue.h"
+
+
 #include "car.h"
-#include "passenger.h"
+
+
 
 int Passenger::counter = 0;
 
 Passenger::Passenger() {
     id = counter++;
-    xTaskCreate(&_task, "PassengerTask " + id, 1024, this, 1, NULL);
+    std::string taskName = "PassengerTask" + std::to_string(id);
+    xTaskCreate(&_task, taskName.c_str(), PTHREAD_STACK_MIN, this, 1, &task_handler);
 }
 
 Passenger::~Passenger() {
@@ -20,27 +28,36 @@ Passenger::~Passenger() {
 }
 
 int Passenger::board() {
-    if (xSemaphoreTake(Car::carArray[0].slots, 100) != pdTRUE) {
+    if (xQueueSend(Car::carArray[0].slots, this, 100) != pdPASS) {
         std::cout << "Passageiro " << id << " não entrou" << std::endl;
-        return -1;
-        
-    } 
-    std::cout << "Passageiro " << id << " entrou" << std::endl;
+        return -1;   
+    }
     state(PassengerState::WAITING_IN_CAR);
-
+    vTaskDelay(5000);
     
-
     return 0;
 }
 
-void Passenger::unboard() {
+void Passenger::run() {
+    state(PassengerState::RUNNING);
+    vTaskDelay(5000);
+}
 
+void Passenger::unboard() {
+    state(PassengerState::WAITING_IN_LINE);
 }
 
 void Passenger::begin() {
     std::cout << "Passenger " << id << " begin" << std::endl;
 
-    board();
+    if (board() < 0) {
+        std::cout << "Passenger " << id << " foi embora triste" << std::endl;
+        return;
+    }
+    run();
+    unboard();
+
+    std::cout << "Passenger " << id << " foi embora feliz" << std::endl;
 
 }
 

@@ -1,6 +1,12 @@
+#ifndef __PASSENGER_H__
+#define __PASSENGER_H__
+
+#include <iostream>
+
 /* FreeRTOS kernel includes. */
 #include "FreeRTOS.h"
 #include "task.h"
+
 
 enum class PassengerState{
     WAITING_IN_LINE,
@@ -29,6 +35,7 @@ public:
     int id;
     int car_id;
     PassengerState _state = PassengerState::WAITING_IN_LINE;
+    TaskHandle_t task_handler;
 
     const PassengerState state() const {return _state;}
     void state(PassengerState state) {
@@ -39,8 +46,11 @@ public:
     static int counter;
 
     int board();
+    void run();
     void unboard();
 
     void begin();
     static void _task(void *param);
 };
+
+#endif

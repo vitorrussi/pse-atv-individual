@@ -1,16 +1,7 @@
 #include "prjmain.h"
-
-/* Standard includes. */
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdarg.h>
 #include <array>
-#include <numeric>
 
 /* FreeRTOS kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
 
 #include "passenger.h"
 #include "car.h"
@@ -33,8 +24,8 @@ int prjMain(void) {
     std::array<Passenger,n> passengers;
     
 
-    xTaskCreate(&vTask1, "Task 1", 1024, NULL, 1, NULL);
-    xTaskCreate(&vTask2, "Task 2", 1024, NULL, 1, NULL);
+    // xTaskCreate(&vTask1, "Task 1", 1024, NULL, 1, NULL);
+    // xTaskCreate(&vTask2, "Task 2", 1024, NULL, 1, NULL);
     vTaskStartScheduler();
 
     return 0;
