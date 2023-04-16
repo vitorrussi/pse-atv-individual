@@ -19,7 +19,7 @@ int Passenger::counter = 0;
 
 Passenger::Passenger() {
     id = counter++;
-    std::string taskName = "PassengerTask" + std::to_string(id);
+    std::string taskName = "PTask" + std::to_string(id);
     xTaskCreate(&_task, taskName.c_str(), PTHREAD_STACK_MIN, this, 1, &task_handler);
 }
 
@@ -28,19 +28,21 @@ Passenger::~Passenger() {
 }
 
 int Passenger::board() {
-    if (xQueueSend(Car::carArray[0].slots, this, 100) != pdPASS) {
+    Passenger* ptr1 = this;
+    if (xQueueSend(Car::carArray[0].slots, &ptr1, 100) != pdPASS) {
         std::cout << "Passageiro " << id << " não entrou" << std::endl;
         return -1;   
     }
     state(PassengerState::WAITING_IN_CAR);
-    vTaskDelay(5000);
+    std::cout << "P" << id << "addr: " << this << std::endl;
+    _yield();
     
     return 0;
 }
 
 void Passenger::run() {
     state(PassengerState::RUNNING);
-    vTaskDelay(5000);
+    _yield();
 }
 
 void Passenger::unboard() {
@@ -59,6 +61,11 @@ void Passenger::begin() {
 
     std::cout << "Passenger " << id << " foi embora feliz" << std::endl;
 
+}
+
+void Passenger::_yield() {
+    // vTaskDelay(5000);
+    vTaskSuspend(task_handler);
 }
 
 void Passenger::_task(void *param) {

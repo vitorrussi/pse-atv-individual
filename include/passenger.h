@@ -51,6 +51,8 @@ public:
 
     void begin();
     static void _task(void *param);
+
+    void _yield();
 };
 
 #endif

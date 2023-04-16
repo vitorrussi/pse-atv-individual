@@ -16,7 +16,10 @@ std::vector<Car> Car::carArray;
 void printTaskList() {
     // char buffer[1000];
     // vTaskList(buffer);
-    // printf("%s", buffer);
+    // std::cout << "Name          State   Priority  Stack  Num" << std::endl;
+    // std::cout << "******************************************" << std::endl;
+    // std::cout << buffer << std::endl;
+    // std::cout << "******************************************" << std::endl;
 }
 
 Car::Car() {
@@ -26,7 +29,7 @@ Car::Car() {
     id = counter++;
     slots = xQueueCreate(SLOTS, sizeof(Passenger*));
     carArray[id] = *this;
-    xTaskCreate(&_task, "CarTask " + id, PTHREAD_STACK_MIN, this, 1, NULL);
+    xTaskCreate(&_task, "CTask " + id, PTHREAD_STACK_MIN, this, 1, NULL);
 }
 
 Car::~Car() {
@@ -103,12 +106,13 @@ void Car::_unboardPassengers() {
 void Car::_wakePassengers() {
     Passenger *passenger;
     for(auto i = 0; i < SLOTS; i++) {
-        xQueueReceive(slots, passenger, 100);
-        std::cout << "Waking passenger " << passenger->id << std::endl;
-        xTaskAbortDelay(passenger->task_handler);
-        TaskStatus_t task_status;
-        vTaskGetInfo(passenger->task_handler, &task_status, pdTRUE,eInvalid);
-        std::cout << "Task name: " << task_status.pcTaskName << std::endl;
-        xQueueSend(slots, passenger, 100);
+        xQueueReceive(slots, &passenger, 100);
+        std::cout << "Waking passenger " << passenger->id << " with addr " << passenger << std::endl;
+        // xTaskAbortDelay(passenger->task_handler);
+        vTaskResume(passenger->task_handler);
+        // TaskStatus_t task_status;
+        // vTaskGetInfo(passenger->task_handler, &task_status, pdTRUE,eInvalid);
+        // std::cout << "Task name: " << task_status.pcTaskName << std::endl;
+        xQueueSend(slots, &passenger, 100);
     }
 }
