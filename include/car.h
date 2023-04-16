@@ -64,11 +64,6 @@ public:
     
     static void _task(void *param);
 
-    friend std::ostream& operator<<(std::ostream& os, const Car& obj) {
-        // write obj to stream
-        return os;
-    }
-
     void _runPassengers();
     void _unboardPassengers();
     void _wakePassengers();
