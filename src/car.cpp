@@ -48,14 +48,9 @@ int Car::load() {
 
 void Car::run() {
     state(CarState::RUNNING);
-    printTaskList();
     _wakePassengers();
-    printTaskList();
     vTaskDelay(1000);
-
-    state(CarState::RUN_FINISHED);
-    
-
+    state(CarState::RUN_FINISHED);   
 }
 
 void Car::unload() {
