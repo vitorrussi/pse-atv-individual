@@ -7,6 +7,7 @@ Para escolher o número de carros, lugares e passageiros, edite o arquivo `defin
 Alguns casos deram Segmentation fault no início, o motivo ao certo não foi descoberto, até acredito ser algum erro no framework do FreeRTOS escolhido. O arquivo `segfault.txt` mostra uma lista não exaustiva de casos que foram testados. O script `test_all.py` fez todos esses testes.
 
 O FreeRTOS utilizado foi o `https://github.com/FreeRTOS/FreeRTOS`, release 202212.01 `https://github.com/FreeRTOS/FreeRTOS/releases/tag/202212.01`
+O projeto base foi a partir de https://github.com/vsserafim/twotasks-posix-gcc
 
 ## Build container
 
