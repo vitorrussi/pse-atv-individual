@@ -48,6 +48,15 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "freertosconfig.h": "c"
+        "freertosconfig.h": "c",
+        "cstring": "cpp",
+        "set": "cpp",
+        "cinttypes": "cpp",
+        "chrono": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "thread": "cpp"
     }
 }

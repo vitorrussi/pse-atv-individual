@@ -65,6 +65,8 @@ ${BUILD_DIR}/%.o : %.cpp
 
 .PHONY: clean
 
+build: ${BIN}
+
 clean:
 	-rm -rf $(BUILD_DIR)
 

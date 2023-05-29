@@ -1,0 +1,9 @@
+version: '3.0'
+services:
+  main:
+    build: .
+    image: pse-atv-1 
+    container_name: pse-atv-1 
+    volumes:
+      - ./src:/var/www/src
+      - ./include:/var/www/include

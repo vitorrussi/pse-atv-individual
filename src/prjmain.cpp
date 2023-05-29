@@ -1,4 +1,5 @@
 #include "prjmain.h"
+#include "defines.h"
 #include <array>
 
 /* FreeRTOS kernel includes. */
@@ -6,45 +7,44 @@
 #include "passenger.h"
 #include "car.h"
 /* passengers */
-const auto n = 5;
-/* cars */
-const auto m = 1;
-/* car slots */
-const auto C = 3; 
+// const auto n = 16;
+// /* cars */
+// const auto m = 2;
+// /* car slots */
+// const auto C = 3;
 
 const int Car::NUMBER_OF_CARS = m;
 const int Car::SLOTS = C;
+const int Passenger::NUMBER_OF_PASSENGERS = n;
 
-void vTask1(void *pvParameters);
-void vTask2(void *pvParameters);
+void vTimeout(void *pvParameters);
 
 int prjMain(void) {
     
     std::array<Car,m> cars;
     std::array<Passenger,n> passengers;
     
+    xTaskCreate(&vTimeout, "TIMEOUT", PTHREAD_STACK_MIN, NULL, 10, NULL);
 
-    // xTaskCreate(&vTask1, "Task 1", 1024, NULL, 1, NULL);
-    // xTaskCreate(&vTask2, "Task 2", 1024, NULL, 1, NULL);
+    // delay 2 seconds before start scheduler
+    // std::this_thread::sleep_for(std::chrono::seconds(2));
+
     vTaskStartScheduler();
+
+    for(auto car : cars) {
+        std::cout << "car " << car.id << " rides " << car.rides << std::endl;
+    }
+    for(auto passenger : passengers) {
+        std::cout << "passenger " << passenger.id << " rides " << passenger.rides << std::endl;
+    }
 
     return 0;
 }
 
-void vTask1(void *pvParameters)
+void vTimeout(void *pvParameters)
 {
-    for (;;)
-    {
-        printf("Task 1\r\n");
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-}
-
-void vTask2(void *pvParameters)
-{
-    for (;;)
-    {
-        printf("Task 2\r\n");
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
+    std::cout << "timeout begin" << std::endl;
+    vTaskDelay(pdMS_TO_TICKS(3000));
+    std::cout << "timeout end" << std::endl;
+    vTaskEndScheduler();
 }

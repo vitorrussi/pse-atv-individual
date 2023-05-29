@@ -27,6 +27,7 @@
 #define configUSE_ALTERNATIVE_API				0
 #define configUSE_QUEUE_SETS					1
 #define configUSE_TASK_NOTIFICATIONS			1
+#define configUSE_TRACE_FACILITY    			1
 
 
 #define configMAX_PRIORITIES					( 7 )

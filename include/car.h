@@ -36,6 +36,7 @@ public:
     ~Car();
     int id;
     int passengers[10];
+    int rides = 0;
     CarState _state = CarState::EMPTY;
 
     static const int SLOTS;
@@ -51,6 +52,7 @@ public:
     void state(CarState state) {
         std::cout << "Car " << id << " from " << _state << " to " << state << std::endl;
         _state = state;
+        std::cout << "state here" << std::endl;
     }
 
     int load();
@@ -67,6 +69,7 @@ public:
     void _runPassengers();
     void _unboardPassengers();
     void _wakePassengers();
+    void _wakePassengersWaitingInLine();
 
 };
 

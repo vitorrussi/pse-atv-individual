@@ -2,6 +2,7 @@
 #define __PASSENGER_H__
 
 #include <iostream>
+#include <vector>
 
 /* FreeRTOS kernel includes. */
 #include "FreeRTOS.h"
@@ -33,8 +34,14 @@ public:
     Passenger();
     ~Passenger();
     int id;
-    int car_id;
+    int car_id = -1;
+    int rides = 0;
+    
     PassengerState _state = PassengerState::WAITING_IN_LINE;
+
+    static const int NUMBER_OF_PASSENGERS;
+    static bool all_passengers_created;
+
     TaskHandle_t task_handler;
 
     const PassengerState state() const {return _state;}
@@ -44,6 +51,10 @@ public:
     }
 
     static int counter;
+    static std::vector<Passenger> passengerArray;
+
+
+    // static void wake_passengers_waiting_in_line();
 
     int board();
     void run();
